@@ -1,0 +1,74 @@
+server:
+  port: 9900
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+file:
+  upload:
+    path: ./uploads
+    allowed-extensions: txt,md
+
+milvus:
+  host: localhost
+  port: 19530
+  username: ""
+  password: ""
+  database: default
+  timeout: 10000
+
+# Spring AI OpenAI 配置（用于 DeepSeek v4 Flash，兼容 OpenAI API）
+spring:
+  ai:
+    openai:
+      api-key: ${DEEPSEEK_API_KEY:sk-1e03ea92532b4ca4a8a74d91858d35fa}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+          max-tokens: 4000
+
+    
+    # Spring AI MCP 客户端配置
+    # 如果使用mock数据，请注释这部分内容
+#    mcp:
+#      client:
+#        enabled: true
+#        name: tencent-mcp-server
+#        version: 1.0.0
+#        request-timeout: 60s
+#        type: ASYNC
+#        sse:
+#          connections:
+#            tencent-cls:
+#              url: https://mcp-api.tencent-cloud.com
+#              sse-endpoint: /sse/fccdc54ac4d1c1d7  # 完整的SSE端点路径
+
+# BGE-M3 向量模型配置（本地 Ollama 部署）
+embedding:
+  base-url: http://localhost:11434
+  model: bge-m3
+
+# 文档分片配置
+document:
+  chunk:
+    max-size: 800  # 每个分片最大字符数
+    overlap: 100   # 分片之间的重叠字符数
+
+# RAG 配置
+rag:
+  top-k: 3  # 检索返回的最相似文档数量
+  model: "deepseek-chat"  # 大语言模型名称
+
+# Prometheus 配置
+prometheus:
+  base-url: http://localhost:9090
+  timeout: 10  # 超时时间（秒）
+  mock-enabled: true  # 是否启用 Mock 模式（用于测试）
+
+# CLS 云日志服务配置
+cls:
+  mock-enabled: true  # 是否启用 Mock 模式（用于测试，设为 true 返回与告警关联的模拟日志数据）
